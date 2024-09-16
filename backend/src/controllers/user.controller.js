@@ -3,6 +3,9 @@ import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 const registerUser = asyncHandler(async (req, res) => {
   //get user details
   const { name, email, password, role } = req.body;
@@ -50,7 +53,6 @@ const deleteUser = asyncHandler(async (req, res) => {
   if (!user) throw new ApiError(402, "User not found");
 
   const deletedUser = await userModel.findOneAndDelete({ _id });
-  
 
   return res
     .status(101)
@@ -77,4 +79,37 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, deleteUser, updateUser };
+const login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  //validation error
+  if ([email, password].some((fields) => fields?.trim() === "")) {
+    throw new ApiError(400, "All fields are required");
+  }
+
+  const user = await userModel.findOne({ email });
+
+  if (!user) {
+    throw new ApiError(401, "Invalid email or password");
+  }
+
+  // generate jwt token
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new ApiError(401, "Invalid email or password");
+  } else {
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      path: "/",
+      sameSite: "None",
+    });
+  }
+
+  //return response
+  return res.status(102).json(new ApiResponse(102, "User login successfully"));
+});
+
+export { registerUser, deleteUser, updateUser, login };
