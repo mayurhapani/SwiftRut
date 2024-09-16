@@ -8,11 +8,11 @@ import jwt from "jsonwebtoken";
 
 const registerUser = asyncHandler(async (req, res) => {
   //get user details
-  const { name, email, password, role } = req.body;
+  const { name, email, password } = req.body;
   // console.log(req.body);
 
   //validation error
-  if ([name, email, role, password].some((fields) => fields?.trim() === "")) {
+  if ([name, email, password].some((fields) => fields?.trim() === "")) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -27,7 +27,6 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
-    role,
   });
 
   //remove password and refresh token from response
@@ -60,14 +59,13 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  const { name, email, role } = req.body;
+  const { name, email } = req.body;
   const { _id } = req.params;
 
   // validation error
   const user = await userModel.findByIdAndUpdate(_id, {
     name,
     email,
-    role,
   });
 
   if (!user) {
@@ -100,16 +98,38 @@ const login = asyncHandler(async (req, res) => {
   } else {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
+    // set jwt token in cookie
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       path: "/",
-      sameSite: "None",
+      sameSite: "lax",
     });
-  }
 
-  //return response
-  return res.status(102).json(new ApiResponse(102, "User login successfully"));
+    // Send token in response along with user data
+    // return res.status(200).json({
+    //   statusCode: 200,
+    //   message: "User login successfully",
+    //   data: user,
+    //   token, // Including token in the response body
+    // });
+    //return response
+    return res
+      .status(200)
+      .json(new ApiResponse(200, { user, token }, "User login successfully"));
+  }
 });
 
-export { registerUser, deleteUser, updateUser, login };
+const logout = asyncHandler(async (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    sameSite: "None",
+  });
+
+  //return response
+  return res.status(200).json(new ApiResponse(200, "User login successfully"));
+});
+
+export { registerUser, deleteUser, updateUser, login, logout };

@@ -1,12 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/images/logo.png";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function Signup() {
   const [name, setName] = useState("");
-  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -34,9 +32,8 @@ export default function Signup() {
     }
 
     try {
-      const response = await axios.post(`${BASE_URL}/signup`, {
+      const response = await axios.post(`${BASE_URL}/users/register`, {
         name,
-        username,
         email,
         password,
       });
@@ -58,27 +55,20 @@ export default function Signup() {
       <div className="container mx-auto ">
         <div className="flex justify-center items-center h-screen">
           <div className="bg-red-100 p-10 rounded-md text-center">
-            <img className="w-40 mx-auto" src={logo} alt="" />
-            <h1 className="mb-5 text-xl font-semibold text-gray-600">
-              Sign up to see photos and videos <br /> from your friends.
+            <h1 className="mb-5 text-2xl md:text-5xl font-bold text-gray-600">
+              Sundaram Enterprise
             </h1>
+            <h2 className="mb-5 text-xl font-semibold text-gray-600">
+              Complete Your Tasks With Us
+            </h2>
             <form className="flex flex-col gap-2" onSubmit={sendData}>
               <input
                 className="mb-3 p-2 rounded-sm"
                 type="text"
-                placeholder="Name"
+                placeholder="Username"
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
-                }}
-              />
-              <input
-                className="mb-3 p-2 rounded-sm"
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => {
-                  setUserName(e.target.value);
                 }}
               />
               <input

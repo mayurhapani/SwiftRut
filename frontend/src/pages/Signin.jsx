@@ -1,12 +1,11 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../assets/images/logo.png";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Cookies from "universal-cookie";
+// import Cookies from "universal-cookie";
 import { AuthContext } from "../context/AuthProvider";
 
-const cookies = new Cookies();
+// const cookies = new Cookies();
 
 export default function Signin() {
   const [email, setEmail] = useState("");
@@ -39,7 +38,7 @@ export default function Signin() {
 
     try {
       const response = await axios.post(
-        `${BASE_URL}/signin`,
+        `${BASE_URL}/users/login`,
         {
           email,
           password,
@@ -48,11 +47,10 @@ export default function Signin() {
       );
 
       if (response.status === 200) {
-        // console.log(response);
-        const token = response.data.token;
-        cookies.set("token", token, { path: "/" });
+        const token = response.data.data.token;
+
         localStorage.setItem("token", token);
-        localStorage.setItem("id", response.data.user._id);
+        localStorage.setItem("id", response.data.data.user._id);
         setIsLoggedIn(true);
 
         notify2(response.data.message);
@@ -76,7 +74,9 @@ export default function Signin() {
       <div className="container mx-auto ">
         <div className="flex justify-center items-center h-screen">
           <div className="bg-red-100 p-10 rounded-md text-center">
-            <img className="w-40 mx-auto mb-5" src={logo} alt="" />
+            <h1 className="mb-10 text-2xl md:text-5xl font-bold text-gray-600">
+              Sundaram Enterprise
+            </h1>
 
             <form className="flex flex-col gap-2" action="" onSubmit={loginData}>
               <input

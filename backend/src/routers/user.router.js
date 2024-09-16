@@ -4,16 +4,19 @@ import {
   deleteUser,
   updateUser,
   login,
+  logout,
 } from "../controllers/user.controller.js";
+import { isAuth } from "../middlewares/isAuth.middleware.js";
 
 const userRouter = Router();
 
 // Define your routes here
 
 userRouter.post("/register", registerUser);
-userRouter.delete("/delete/:_id", deleteUser);
-userRouter.patch("/update/:_id", updateUser);
+userRouter.delete("/delete/:_id", isAuth, deleteUser);
+userRouter.patch("/update/:_id", isAuth, updateUser);
 
 userRouter.post("/login", login);
+userRouter.get("/logout", isAuth, logout);
 
 export { userRouter };

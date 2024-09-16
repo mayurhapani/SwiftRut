@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import logo from "../assets/images/logo.png";
 import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthProvider";
 
@@ -12,7 +11,7 @@ export default function Header() {
       <div className=" bg-white fixed top-0 left-0 right-0">
         <div className="container mx-auto">
           <div className="flex justify-between items-center">
-            <img className="w-40" src={logo} alt="" />
+            <h1 className="text-xl md:text-3xl font-bold text-gray-600 ">Sundaram Enterprise</h1>
             <nav>
               <ul className="flex">
                 <Link to="/signin" className={isLoggedIn ? "hidden" : "block"}>

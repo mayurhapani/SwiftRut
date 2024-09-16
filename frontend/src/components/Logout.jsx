@@ -19,7 +19,7 @@ export default function Logout() {
     const logout = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`${BASE_URL}/logout`, {
+        const response = await axios.get(`${BASE_URL}/users/logout`, {
           withCredentials: true,
           headers: {
             Authorization: "Bearer " + token,
@@ -31,18 +31,13 @@ export default function Logout() {
           localStorage.removeItem("id");
 
           // Attempt to remove cookies with specific attributes
-          cookies.remove("token", {
-            path: "/",
-            domain: window.location.hostname,
-            sameSite: "None",
-            secure: true,
-          });
-          cookies.remove("token"); // Fallback
+          cookies.remove("token", { path: "/", sameSite: "None", secure: true });
+          cookies.remove("token");
 
           setIsLoggedIn(false);
           setLogInUser({});
           toast.success(response.data.message);
-          navigate("/");
+          navigate("/signin");
         }
       } catch (error) {
         if (isMounted) {
