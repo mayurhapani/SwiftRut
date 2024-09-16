@@ -50,7 +50,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   if (!user) throw new ApiError(402, "User not found");
 
   const deletedUser = await userModel.findOneAndDelete({ _id });
-  console.log(deletedUser);
+  
 
   return res
     .status(101)
