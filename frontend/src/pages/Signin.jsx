@@ -87,6 +87,7 @@ export default function Signin() {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
+                name="email"
               />
               <input
                 className="mb-3 p-2 rounded-sm"
@@ -96,6 +97,7 @@ export default function Signin() {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
+                name="password"
               />
               <button className=" bg-blue-500 text-white rounded-md py-1 my-4" type="submit">
                 Sign in

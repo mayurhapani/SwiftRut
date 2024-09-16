@@ -47,20 +47,18 @@ const deleteUser = asyncHandler(async (req, res) => {
   //get user details
   const { _id } = req.params;
 
+  // Check if user exists
   const user = await userModel.findOne({ _id });
-
   if (!user) throw new ApiError(402, "User not found");
 
   const deletedUser = await userModel.findOneAndDelete({ _id });
 
   return res
-    .status(101)
-    .json(new ApiResponse(101, "User deleted successfully"));
+    .status(200)
+    .json(new ApiResponse(200, deletedUser, "User deleted successfully"));
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  console.log("hii");
-
   const { name, email } = req.body;
   const { _id } = req.params;
 

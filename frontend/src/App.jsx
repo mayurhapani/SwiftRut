@@ -13,7 +13,6 @@ import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
 import Logout from "./components/Logout";
 import OtherUserProfile from "./pages/OtherUserProfile";
-import MyFollowing from "./pages/MyFollowing";
 
 function App() {
   return (
@@ -25,7 +24,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/createPost" element={<CreatePost />} />
-            <Route path="/myFollowing" element={<MyFollowing />} />
             <Route path="/logout" element={<Logout />} />
 
             <Route path="/signin" element={<Signin />} />
