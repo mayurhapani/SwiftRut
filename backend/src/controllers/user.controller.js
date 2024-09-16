@@ -6,6 +6,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 const registerUser = asyncHandler(async (req, res) => {
   //get user details
   const { name, email, password, role } = req.body;
+  // console.log(req.body);
 
   //validation error
   if ([name, email, role, password].some((fields) => fields?.trim() === "")) {
@@ -40,4 +41,40 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User registered successfully"));
 });
 
-export { registerUser };
+const deleteUser = asyncHandler(async (req, res) => {
+  //get user details
+  const { _id } = req.params;
+
+  const user = await userModel.findOne({ _id });
+
+  if (!user) throw new ApiError(402, "User not found");
+
+  const deletedUser = await userModel.findOneAndDelete({ _id });
+  console.log(deletedUser);
+
+  return res
+    .status(101)
+    .json(new ApiResponse(101, "User deleted successfully"));
+});
+
+const updateUser = asyncHandler(async (req, res) => {
+  const { name, email, role } = req.body;
+  const { _id } = req.params;
+
+  // validation error
+  const user = await userModel.findByIdAndUpdate(_id, {
+    name,
+    email,
+    role,
+  });
+
+  if (!user) {
+    throw new ApiError(402, "User not found");
+  } else {
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user, "User updated successfully"));
+  }
+});
+
+export { registerUser, deleteUser, updateUser };

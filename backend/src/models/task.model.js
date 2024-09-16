@@ -12,8 +12,9 @@ const taskSchema = new Schema(
       required: true,
     },
     category: {
-      type: Schema.Types.ObjectId,
-      ref: "Category",
+      type: String,
+      default: "medium",
+      enum: ["high", "medium", "low"],
     },
     createdBy: [
       {
