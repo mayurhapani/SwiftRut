@@ -23,14 +23,11 @@ export default function Header() {
                 <Link to="/" className={isLoggedIn ? "block" : "hidden"}>
                   <li className="py-2 px-3 text-xl font-semibold text-gray-600">Home</li>
                 </Link>
-                <Link to="/myFollowing" className={isLoggedIn ? "block" : "hidden"}>
-                  <li className="py-2 px-3 text-xl font-semibold text-gray-600">My Following</li>
-                </Link>
                 <Link to="/profile" className={isLoggedIn ? "block" : "hidden"}>
                   <li className="py-2 px-3 text-xl font-semibold text-gray-600">Profile</li>
                 </Link>
                 <Link to="/createPost" className={isLoggedIn ? "block" : "hidden"}>
-                  <li className="py-2 px-3 text-xl font-semibold text-gray-600">Create Post</li>
+                  <li className="py-2 px-3 text-xl font-semibold text-gray-600">Add Task</li>
                 </Link>
                 <Link
                   onClick={() => setLogoutModel(true)}

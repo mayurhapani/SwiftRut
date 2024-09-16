@@ -5,6 +5,7 @@ import {
   updateUser,
   login,
   logout,
+  getUser,
 } from "../controllers/user.controller.js";
 import { isAuth } from "../middlewares/isAuth.middleware.js";
 
@@ -18,5 +19,7 @@ userRouter.patch("/update/:_id", isAuth, updateUser);
 
 userRouter.post("/login", login);
 userRouter.get("/logout", isAuth, logout);
+
+userRouter.get("/getUser", isAuth, getUser);
 
 export { userRouter };

@@ -59,6 +59,8 @@ const deleteUser = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
+  console.log("hii");
+
   const { name, email } = req.body;
   const { _id } = req.params;
 
@@ -106,14 +108,6 @@ const login = asyncHandler(async (req, res) => {
       sameSite: "lax",
     });
 
-    // Send token in response along with user data
-    // return res.status(200).json({
-    //   statusCode: 200,
-    //   message: "User login successfully",
-    //   data: user,
-    //   token, // Including token in the response body
-    // });
-    //return response
     return res
       .status(200)
       .json(new ApiResponse(200, { user, token }, "User login successfully"));
@@ -132,4 +126,12 @@ const logout = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200, "User login successfully"));
 });
 
-export { registerUser, deleteUser, updateUser, login, logout };
+const getUser = asyncHandler(async (req, res) => {
+  const user = req.user;
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User data got successfully"));
+});
+
+export { registerUser, deleteUser, updateUser, login, logout, getUser };
