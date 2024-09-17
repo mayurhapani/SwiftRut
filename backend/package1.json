@@ -4,8 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
-    "start": "node src/index.js"
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -24,8 +23,5 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.6.1",
     "mongoose-aggregate-paginate-v2": "^1.1.2"
-  },
-  "engines": {
-    "node": ">=14.x"
   }
 }
