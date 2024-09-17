@@ -101,7 +101,7 @@ export default function TaskCard({ task, user }) {
               </div>
               <div className="flex justify-center items-center rounded">
                 <p className="text-sm font-semibold text-gray-600">
-                  Status :{" "}
+                  Category :{" "}
                   <span
                     className={
                       task.category == "high"
