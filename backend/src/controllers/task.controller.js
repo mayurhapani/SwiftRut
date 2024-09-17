@@ -85,7 +85,14 @@ const completeTask = asyncHandler(async (req, res) => {
 });
 
 const getTasks = asyncHandler(async (req, res) => {
-  const tasks = await taskModel.find({ createdBy: req.user._id });
+  const user = req.user;
+  let tasks;
+
+  if (user.role == "admin") {
+    tasks = await taskModel.find({});
+  } else {
+    tasks = await taskModel.find({ createdBy: req.user._id });
+  }
 
   return res.json(new ApiResponse(200, tasks, "Tasks retrieved successfully"));
 });
