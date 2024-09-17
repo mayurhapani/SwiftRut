@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import TaskCard from "../components/TaskCard";
-import { AuthContext } from "../context/AuthProvider";
+// import { AuthContext } from "../context/AuthProvider";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
@@ -12,7 +12,7 @@ export default function Home() {
   const [user, setUser] = useState({});
   const [tasks, setTasks] = useState([]);
 
-  const { isLoggedIn } = useContext(AuthContext);
+  // const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -68,7 +68,7 @@ export default function Home() {
 
     fetchUser();
     fetchPosts();
-  }, [navigate, isLoggedIn]);
+  }, []);
 
   return (
     <div className="">

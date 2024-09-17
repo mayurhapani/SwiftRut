@@ -10,29 +10,28 @@ export default function TaskCard({ task, user }) {
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  // const addComment = async (post) => {
-  //   try {
-  //     const response = await axios.post(
-  //       `${BASE_URL}/post/addComment/${post._id}`,
-  //       { comment },
-  //       {
-  //         withCredentials: true,
-  //         headers: {
-  //           Authorization: "Bearer " + localStorage.getItem("token"),
-  //         },
-  //       }
-  //     );
-  //     setComment("");
-  //     setCommentCount(commentCount + 1);
-  //     toast.success(response.data.message);
-  //   } catch (error) {
-  //     if (error.response) {
-  //       toast.error(error.response.data.message);
-  //     } else {
-  //       toast.error(error.message);
-  //     }
-  //   }
-  // };
+  const completeTask = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.patch(`${BASE_URL}/tasks/complete/${id}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      console.log("complete task", response);
+
+      toast.success(response.data.message);
+      navigate("/");
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error.message);
+      }
+    }
+  };
 
   const deleteTask = async (id) => {
     try {
@@ -44,7 +43,6 @@ export default function TaskCard({ task, user }) {
           Authorization: "Bearer " + token,
         },
       });
-      console.log("delete task", response);
 
       toast.success(response.data.message);
       navigate("/");
@@ -99,7 +97,10 @@ export default function TaskCard({ task, user }) {
                 </p>
               </div>
               <div className="flex justify-center items-center">
-                <button className="flex-no-shrink px-1 mr-2 border-2 rounded hover:text-white text-green-600 border-green-600 hover:bg-green-600">
+                <button
+                  className="flex-no-shrink px-1 mr-2 border-2 rounded hover:text-white text-green-600 border-green-600 hover:bg-green-600"
+                  onClick={() => completeTask(task._id)}
+                >
                   Done
                 </button>
                 <button

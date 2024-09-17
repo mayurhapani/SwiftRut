@@ -63,10 +63,27 @@ const updateTask = asyncHandler(async (req, res) => {
   }
 });
 
+const completeTask = asyncHandler(async (req, res) => {
+  const { _id } = req.params;
+
+  // validation error
+  const isTask = await taskModel.findById(_id);
+  if (!isTask) {
+    throw new ApiError(402, "Post not found");
+  }
+
+  //task update as completed
+  const task = await taskModel.findByIdAndUpdate(_id, {
+    isCompleted: true,
+  });
+
+  return res.status(200).json(new ApiResponse(200, task, "Task completed"));
+});
+
 const getTasks = asyncHandler(async (req, res) => {
   const tasks = await taskModel.find({ createdBy: req.user._id });
 
   return res.json(new ApiResponse(200, tasks, "Tasks retrieved successfully"));
 });
 
-export { addTask, deleteTask, updateTask, getTasks };
+export { addTask, deleteTask, updateTask, getTasks, completeTask };
