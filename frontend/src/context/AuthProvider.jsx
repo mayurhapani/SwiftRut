@@ -10,8 +10,8 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [myPostId, setMyPostId] = useState("");
   const [logInUser, setLogInUser] = useState({});
+  const [isRefresh, setIsRefresh] = useState(false);
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, myPostId, setMyPostId, logInUser, setLogInUser }}
+      value={{ isRefresh, setIsRefresh, isLoggedIn, setIsLoggedIn, logInUser, setLogInUser }}
     >
       {children}
     </AuthContext.Provider>

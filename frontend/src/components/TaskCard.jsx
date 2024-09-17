@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 export default function TaskCard({ task, user }) {
+  const { isRefresh, setIsRefresh } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -27,6 +28,7 @@ export default function TaskCard({ task, user }) {
       console.log("complete task", response);
 
       toast.success(response.data.message);
+      setIsRefresh(!isRefresh);
       navigate("/");
     } catch (error) {
       if (error.response) {
@@ -49,6 +51,7 @@ export default function TaskCard({ task, user }) {
       });
 
       toast.success(response.data.message);
+      setIsRefresh(!isRefresh);
       navigate("/");
     } catch (error) {
       if (error.response) {

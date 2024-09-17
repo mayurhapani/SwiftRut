@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import TaskCard from "../components/TaskCard";
-// import { AuthContext } from "../context/AuthProvider";
+import { AuthContext } from "../context/AuthProvider";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
@@ -12,7 +12,7 @@ export default function Home() {
   const [user, setUser] = useState({});
   const [tasks, setTasks] = useState([]);
 
-  // const { isLoggedIn } = useContext(AuthContext);
+  const { isRefresh } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -25,8 +25,8 @@ export default function Home() {
       return;
     }
 
-    // Fetch posts when component mounts
-    const fetchPosts = async () => {
+    // Fetch tasks when component mounts
+    const fetchTasks = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/tasks/getTasks`, {
           withCredentials: true,
@@ -34,9 +34,18 @@ export default function Home() {
             Authorization: "Bearer " + token,
           },
         });
+        const tasks = response.data.data;
 
-        // console.log("tasks", response.data.data);
-        setTasks(response.data.data);
+        const categoryOrder = { high: 1, medium: 2, low: 3 };
+
+        const sortedTasks = tasks.sort((a, b) => {
+          if (a.isCompleted !== b.isCompleted) {
+            return a.isCompleted - b.isCompleted;
+          }
+          return categoryOrder[a.category] - categoryOrder[b.category];
+        });
+
+        setTasks(sortedTasks);
       } catch (error) {
         if (error.response) {
           toast.error(error.response.data.message);
@@ -55,7 +64,6 @@ export default function Home() {
           },
         });
 
-        // console.log("user", response.data.data);
         setUser(response.data.data);
       } catch (error) {
         if (error.response) {
@@ -67,8 +75,8 @@ export default function Home() {
     };
 
     fetchUser();
-    fetchPosts();
-  }, []);
+    fetchTasks();
+  }, [BASE_URL, navigate, isRefresh]);
 
   return (
     <div className="">
