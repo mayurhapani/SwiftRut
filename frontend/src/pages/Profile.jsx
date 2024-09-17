@@ -36,8 +36,6 @@ export default function Profile() {
           },
         });
 
-        // console.log(response.data);
-
         setName(response.data.data.name);
         setEmail(response.data.data.email);
         setId(response.data.data._id);

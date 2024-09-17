@@ -10,7 +10,7 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Profile from "./pages/Profile";
 import Home from "./pages/Home";
-import CreatePost from "./pages/CreatePost";
+import AddTask from "./pages/AddTask";
 import Logout from "./components/Logout";
 import OtherUserProfile from "./pages/OtherUserProfile";
 
@@ -23,7 +23,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/createPost" element={<CreatePost />} />
+            <Route path="/addTask" element={<AddTask />} />
             <Route path="/logout" element={<Logout />} />
 
             <Route path="/signin" element={<Signin />} />

@@ -9,7 +9,7 @@ const addTask = asyncHandler(async (req, res) => {
   const userId = req.user._id;
 
   //validation error
-  if ([title, description, category].some((fields) => fields?.trim() === "")) {
+  if ([title, description].some((fields) => fields?.trim() === "")) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -20,13 +20,13 @@ const addTask = asyncHandler(async (req, res) => {
     createdBy: userId,
   });
 
-  if (!createdUser) {
+  if (!newTask) {
     throw new ApiError(500, "something went wrong while adding task");
   }
 
   return res
     .status(201)
-    .json(new ApiResponse(200, createdUser, "New Task added successfully"));
+    .json(new ApiResponse(200, newTask, "New Task added successfully"));
 });
 
 const deleteTask = asyncHandler(async (req, res) => {
@@ -42,6 +42,7 @@ const deleteTask = asyncHandler(async (req, res) => {
     .status(101)
     .json(new ApiResponse(101, "Task deleted successfully"));
 });
+
 const updateTask = asyncHandler(async (req, res) => {
   const { title, description, category } = req.body;
   const { _id } = req.params;
@@ -62,4 +63,10 @@ const updateTask = asyncHandler(async (req, res) => {
   }
 });
 
-export { addTask, deleteTask, updateTask };
+const getTasks = asyncHandler(async (req, res) => {
+  const tasks = await taskModel.find({ createdBy: req.user._id });
+
+  return res.json(new ApiResponse(200, tasks, "Tasks retrieved successfully"));
+});
+
+export { addTask, deleteTask, updateTask, getTasks };

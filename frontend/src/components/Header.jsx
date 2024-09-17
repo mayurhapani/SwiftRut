@@ -26,7 +26,7 @@ export default function Header() {
                 <Link to="/profile" className={isLoggedIn ? "block" : "hidden"}>
                   <li className="py-2 px-3 text-xl font-semibold text-gray-600">Profile</li>
                 </Link>
-                <Link to="/createPost" className={isLoggedIn ? "block" : "hidden"}>
+                <Link to="/addTask" className={isLoggedIn ? "block" : "hidden"}>
                   <li className="py-2 px-3 text-xl font-semibold text-gray-600">Add Task</li>
                 </Link>
                 <Link

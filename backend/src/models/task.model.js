@@ -16,12 +16,14 @@ const taskSchema = new Schema(
       default: "medium",
       enum: ["high", "medium", "low"],
     },
-    createdBy: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    isCompleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
