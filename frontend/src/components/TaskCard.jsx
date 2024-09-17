@@ -63,7 +63,11 @@ export default function TaskCard({ task, user }) {
           <div>
             <div className="flex  items-center justify-between">
               <h3 className="text-lg font-semibold">{task.title}</h3>
-              <div className="flex items-center"></div>
+              <div className={`items-center ${user.role == "user" ? "hidden" : "flex"}`}>
+                <p>
+                  By : <span>@{user.name}</span>
+                </p>
+              </div>
             </div>
             <div className="flex mb-4 items-center">
               <p className="text-md ">{task.description}</p>
