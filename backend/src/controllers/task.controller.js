@@ -39,8 +39,8 @@ const deleteTask = asyncHandler(async (req, res) => {
   const deletedTask = await taskModel.findOneAndDelete({ _id });
 
   return res
-    .status(101)
-    .json(new ApiResponse(101, "Task deleted successfully"));
+    .status(200)
+    .json(new ApiResponse(200, deletedTask, "Task deleted successfully"));
 });
 
 const updateTask = asyncHandler(async (req, res) => {

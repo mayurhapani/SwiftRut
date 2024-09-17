@@ -34,27 +34,28 @@ export default function TaskCard({ task, user }) {
   //   }
   // };
 
-  // useEffect(() => {
-  //   if (myPostId == post._id && newCommentAdd) {
-  //     setCommentCount(commentCount + 1);
-  //     setNewCommentAdd(false);
-  //   }
+  const deleteTask = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
 
-  //   if (myPostId === post._id && delComment) {
-  //     if (commentCount > 0) {
-  //       setCommentCount(commentCount - 1);
-  //     }
-  //     setDelComment(false);
-  //   }
-  // }, [
-  //   newCommentAdd,
-  //   delComment,
-  //   commentCount,
-  //   myPostId,
-  //   post._id,
-  //   setNewCommentAdd,
-  //   setDelComment,
-  // ]);
+      const response = await axios.delete(`${BASE_URL}/tasks/delete/${id}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      console.log("delete task", response);
+
+      toast.success(response.data.message);
+      navigate("/");
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error(error.message);
+      }
+    }
+  };
 
   return (
     <>
@@ -101,7 +102,10 @@ export default function TaskCard({ task, user }) {
                 <button className="flex-no-shrink px-1 mr-2 border-2 rounded hover:text-white text-green-600 border-green-600 hover:bg-green-600">
                   Done
                 </button>
-                <button className="flex-no-shrink px-1 border-2 rounded text-red-600 border-red-600 hover:text-white hover:bg-red-600">
+                <button
+                  className="flex-no-shrink px-1 border-2 rounded text-red-600 border-red-600 hover:text-white hover:bg-red-600"
+                  onClick={() => deleteTask(task._id)}
+                >
                   Remove
                 </button>
               </div>

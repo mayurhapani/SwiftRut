@@ -31,11 +31,11 @@ export default function Home() {
         const response = await axios.get(`${BASE_URL}/tasks/getTasks`, {
           withCredentials: true,
           headers: {
-            Authorization: "Bearer " + localStorage.getItem("token"),
+            Authorization: "Bearer " + token,
           },
         });
 
-        console.log("tasks", response.data.data);
+        // console.log("tasks", response.data.data);
         setTasks(response.data.data);
       } catch (error) {
         if (error.response) {
@@ -48,8 +48,6 @@ export default function Home() {
 
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
-
         const response = await axios.get(`${BASE_URL}/users/getUser`, {
           withCredentials: true,
           headers: {
@@ -57,7 +55,7 @@ export default function Home() {
           },
         });
 
-        console.log("user", response.data.data);
+        // console.log("user", response.data.data);
         setUser(response.data.data);
       } catch (error) {
         if (error.response) {
