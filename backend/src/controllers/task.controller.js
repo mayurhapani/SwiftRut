@@ -73,11 +73,15 @@ const completeTask = asyncHandler(async (req, res) => {
   }
 
   //task update as completed
-  const task = await taskModel.findByIdAndUpdate(_id, {
-    isCompleted: true,
-  });
+  const task = await taskModel.findByIdAndUpdate(
+    _id,
+    { isCompleted: !isTask.isCompleted },
+    { new: true }
+  );
 
-  return res.status(200).json(new ApiResponse(200, task, "Task completed"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, task, "Task status updated"));
 });
 
 const getTasks = asyncHandler(async (req, res) => {

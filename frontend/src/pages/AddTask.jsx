@@ -11,9 +11,6 @@ export default function AddTask() {
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  const notify1 = (msg) => toast.error(msg);
-  const notify2 = (msg) => toast.success(msg);
-
   const sendData = async (e) => {
     e.preventDefault();
 
@@ -35,13 +32,13 @@ export default function AddTask() {
         }
       );
 
-      notify2(response.data.message);
+      toast.success(response.data.message);
       navigate("/");
     } catch (error) {
       if (error.response) {
-        notify1(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        notify1(error.message);
+        toast.error(error.message);
       }
       navigate("/addTask");
     }

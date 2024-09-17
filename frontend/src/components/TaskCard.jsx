@@ -14,12 +14,16 @@ export default function TaskCard({ task, user }) {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await axios.patch(`${BASE_URL}/tasks/complete/${id}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
+      const response = await axios.patch(
+        `${BASE_URL}/tasks/complete/${id}`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log("complete task", response);
 
       toast.success(response.data.message);
@@ -58,10 +62,20 @@ export default function TaskCard({ task, user }) {
   return (
     <>
       <div className="h-100 w-full flex items-center justify-center bg-teal-lightest font-sans">
-        <div className="bg-white rounded shadow shadow-xl p-3 mb-4 w-full lg:w-3/4 lg:max-w-lg">
+        <div
+          className={`  rounded shadow shadow-xl p-3 mb-4 w-full lg:w-3/4 lg:max-w-lg ${
+            task.isCompleted ? "bg-zinc-300" : "bg-white"
+          }`}
+        >
           <div>
             <div className="flex  items-center justify-between">
-              <h3 className="text-lg font-semibold">{task.title}</h3>
+              <h3
+                className={`text-lg font-semibold ${
+                  task.isCompleted ? "line-through text-gray-400" : ""
+                }`}
+              >
+                {task.title}
+              </h3>
               <div className={`items-center ${user.role == "user" ? "hidden" : "flex"}`}>
                 <p>
                   By : <span>@{user.name}</span>
@@ -69,7 +83,9 @@ export default function TaskCard({ task, user }) {
               </div>
             </div>
             <div className="flex mb-4 items-center">
-              <p className="text-md ">{task.description}</p>
+              <p className={`text-md ${task.isCompleted ? "line-through text-gray-400" : ""}`}>
+                {task.description}
+              </p>
             </div>
             <div className="flex justify-between items-center">
               <div className="flex justify-center items-center">
@@ -98,13 +114,17 @@ export default function TaskCard({ task, user }) {
               </div>
               <div className="flex justify-center items-center">
                 <button
-                  className="flex-no-shrink px-1 mr-2 border-2 rounded hover:text-white text-green-600 border-green-600 hover:bg-green-600"
+                  className={`flex-no-shrink px-1 mr-2 border-2 rounded hover:text-white text-sm  ${
+                    task.isCompleted
+                      ? "text-gray-600 border-gray-600 hover:bg-gray-600"
+                      : "text-green-600 border-green-600 hover:bg-green-600"
+                  }`}
                   onClick={() => completeTask(task._id)}
                 >
-                  Done
+                  {task.isCompleted ? "Not Done" : " Done"}
                 </button>
                 <button
-                  className="flex-no-shrink px-1 border-2 rounded text-red-600 border-red-600 hover:text-white hover:bg-red-600"
+                  className="flex-no-shrink px-1 text-sm border-2 rounded text-red-600 border-red-600 hover:text-white hover:bg-red-600"
                   onClick={() => deleteTask(task._id)}
                 >
                   Remove
