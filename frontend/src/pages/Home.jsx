@@ -76,7 +76,7 @@ export default function Home() {
     <div className="">
       <div className="container mx-auto ">
         <div className="pt-32 flex flex-col items-center">
-          <div className="max-w-[22rem] rounded-sm">
+          <div className="w-2/3 rounded-sm">
             <div className="mb-4">
               <h1 className="text-grey-darkest text-xl font-bold">Todo List</h1>
             </div>

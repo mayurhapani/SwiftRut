@@ -59,30 +59,48 @@ export default function TaskCard({ task, user }) {
   return (
     <>
       <div className="h-100 w-full flex items-center justify-center bg-teal-lightest font-sans">
-        <div className="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
-          
+        <div className="bg-white rounded shadow shadow-xl p-3 mb-4 w-full lg:w-3/4 lg:max-w-lg">
           <div>
-            <div className="flex mb-4 items-center">
-              <p className="w-full text-grey-darkest">
-                Add another component to Tailwind Components
-              </p>
-              <button className="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-green border-green hover:bg-green">
-                Done
-              </button>
-              <button className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red">
-                Remove
-              </button>
+            <div className="flex  items-center justify-between">
+              <h3 className="text-lg font-semibold">{task.title}</h3>
+              <div className="flex items-center"></div>
             </div>
             <div className="flex mb-4 items-center">
-              <p className="w-full line-through text-green">
-                Submit Todo App Component to Tailwind Components
-              </p>
-              <button className="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white text-grey border-grey hover:bg-grey">
-                Not Done
-              </button>
-              <button className="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red">
-                Remove
-              </button>
+              <p className="text-md ">{task.description}</p>
+            </div>
+            <div className="flex justify-between items-center">
+              <div className="flex justify-center items-center">
+                <p className="text-sm font-semibold text-gray-600">
+                  Status :{" "}
+                  <span className={task.isCompleted ? "text-green-500" : "text-red-500"}>
+                    {task.isCompleted ? " Done" : " Pending"}
+                  </span>
+                </p>
+              </div>
+              <div className="flex justify-center items-center rounded">
+                <p className="text-sm font-semibold text-gray-600">
+                  Status :{" "}
+                  <span
+                    className={
+                      task.category == "high"
+                        ? "text-red-500"
+                        : task.category == "medium"
+                        ? "text-yellow-500"
+                        : "text-green-500"
+                    }
+                  >
+                    {task.category}
+                  </span>
+                </p>
+              </div>
+              <div className="flex justify-center items-center">
+                <button className="flex-no-shrink px-1 mr-2 border-2 rounded hover:text-white text-green-600 border-green-600 hover:bg-green-600">
+                  Done
+                </button>
+                <button className="flex-no-shrink px-1 border-2 rounded text-red-600 border-red-600 hover:text-white hover:bg-red-600">
+                  Remove
+                </button>
+              </div>
             </div>
           </div>
         </div>
